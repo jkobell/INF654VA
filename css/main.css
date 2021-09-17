@@ -1,0 +1,26 @@
+
+
+.parallax-container {
+    height: 40rem;
+  }
+
+  #about {
+    background-image: url("/images/about2.jpg");
+    background-size: cover;
+  }
+
+  #article {
+    background-image: url("/images/trail_header1.jpg");
+    background-size: cover;
+    height: 55rem;
+  }
+ 
+  #first-aid {
+    background-image: url("/images/trail_header2.jpg");
+    background-size: cover;
+  }
+
+  #navigation {
+    background-image: url("/images/trail_header0.jpg");
+    background-size: cover;
+  }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="All about Trail-It contents">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <title>About Trail-It</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper brown darken-2">
+          <a href="#" class="brand-logo center">TRAIL-IT</a>
+          <a href="#" class="sidenav-trigger" data-target="mobile-links">
+              <i class="material-icons">menu</i></a>
+          <ul class="left hide-on-med-and-down">
+            <li><a href="#">About</a></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../resources/first-aid.html">Trail First-Aid</a></li>
+            <li><a href="../resources/navigation.html">Trail Navigation</a></li>
+          </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../resources/first-aid.html">Trail First-Aid</a></li>
+        <li><a href="../resources/navigation.html">Trail Navigation</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+    <div id="about">
+    <div class="container center">
+        <h2 style="background-color: white; padding-bottom: 1rem;">About</h2>
+    </div>
+    <div class="container green" style="margin: Auto; padding: .3rem .8rem">
+        <div class="card brown lighten-4">
+            <div class="card-content">
+                <h4 class="center black-text">Contact Information</h4>
+                <ul class="center" Style="font-weight: bold;">
+                    <li>Our URL: www.trailit.com</li>
+                    <li>Mission: To provide tips and advise for all trail novices.</li>
+                    <li>Contact: editor@trailit.com</li>
+                    <li>All rights reserved.</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="brown" style="margin: 3rem;">
+        <div class="card brown lighten-4">
+            <div class="card-content">
+                <h4 class="center black-text">Content Sources</h4>
+                <ol type="I" Style="font-weight: bold;">
+                    <li>Header image: https://ohiodnr.gov/wps/portal/gov/odnr/go-and-do/outdoor/ohio-trails-app/detour-app </li>
+                    <li>Background image: https://www.turkeyrunstatepark.com/turkey-run-state-park-trails/ </li>
+                    <li>First-Aid content: https://www.rei.com/learn/expert-advice/wilderness-first-aid-basics.html, </li>
+                    <li>Navigation content: https://outdoorsmagic.com/article/night-navigation/, https://www.thecampfirecollective.com/blog/aids-to-navigation/</li>
+                    <li>On The Trail content: TBD</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+    <div style="margin-bottom: .5rem;"></div>
+    <footer class="page-footer brown ">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text center">Trail-It</h5>
+            </div>
+            <div class="col l4 offset-l2 s12">
+              <h5 class="white-text">Links</h5>
+              <ul>
+                <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Twitter</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright darken-5">
+          <div class="container left-align">
+          © 2021 Copyright
+          </div>
+        </div>
+      </footer>
+
+    <!-- jQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+
+        $(document).ready(function(){
+            $('.parallax').parallax();
+        });
+    </script></body>
+</html>
