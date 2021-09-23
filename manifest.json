@@ -1,0 +1,23 @@
+{
+    "short_name": "Trail-It",
+    "name": "Trail-It",
+    "lang": "en-US",
+    "dir": "ltr",
+    "icons": [
+      {
+        "src": "/images/homeIcon192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/images/homeIcon512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "background_color": "#a5d6a7",
+    "display": "standalone",
+    "scope": "/",
+    "description": "Valuable information for out on the trail"
+  }
