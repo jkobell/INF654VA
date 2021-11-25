@@ -1,0 +1,135 @@
+body {
+    background: rgb(80, 172, 92);
+    font-family: ubuntu;
+  }
+  
+  h1 {
+    color: rgb(2, 1, 1);
+    font-size: 64px;
+    letter-spacing: 2px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  
+  .formcontent {
+    background: rgb(245, 245, 245);
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .listcontent {
+    background: rgb(245, 245, 245);
+    max-width: 960px;
+    height: auto;
+    margin: 30px auto;
+    padding: 20px 30px;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+    
+  .commentslist {
+    padding: 20px;
+    background: #f6f6f6;
+    font-size: 20px;
+    color: #555;
+    position: relative;
+    border-bottom: 1px solid #e6e6e6;
+    height: auto;
+    margin: 5, 0;
+  }
+  
+  .commentslist:nth-child(even) {
+    padding: 20px;
+    color:black;
+    background: rgb(201, 184, 161);
+  }
+
+  .commentslist:nth-child(odd) {
+    padding: 20px;
+    color:black;
+    background: rgb(172, 201, 161);
+  }
+  
+  .commentslist span {
+    display: block;
+  }
+  
+  .commentslist span:nth-child {
+    font-size: 16px;
+    margin-top: 6px;
+    
+  }
+  
+  .commentslist div {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    background: rgba(255, 255, 255, 0.6);
+    width: 40px;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  
+  .input-wrapper label, .input-wrapper input, .input-wrapper textarea {
+    float: none; /* if you had floats before? otherwise inline-block will behave differently */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1%;
+    padding: 8px;
+}
+
+.input-wrapper label, .checkbox-wrapper label{
+    color: brown;
+    width: 15%;
+    font-size: large;
+    font-weight: bold;   
+}
+
+.input-wrapper input{
+    width: 70%;  
+}
+
+.checkbox-wrapper label, .checkbox-wrapper input{
+    float: none; /* if you had floats before? otherwise inline-block will behave differently */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1%;
+    padding: 8px;
+}
+
+.formcheckbox {
+    width: 2em;
+    height: 2em;
+}
+
+textarea{
+    resize: none;
+}
+ 
+button{
+    padding: 10px;
+    width: 20%;
+    background-color: burlywood;
+    border-radius: 10px;
+}
+
+button:hover{
+    background-color: rgb(168, 248, 165);
+}
+
+.formbutton-wrapper{
+    width: 100%;
+    margin: 1%;    
+    text-align: center;
+}
