@@ -5,12 +5,13 @@
     <meta name="description" content="Trail-It trail first-aid advice">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/fb_main.css">
+    <link href="../fonts/icon.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="../css/materialize.min.css">
     <link rel="stylesheet" href="../css/main.css">
-    <title>OOPS!</title>
+    <title>Reader Comments</title>
 </head>
 <body>
     <nav>
@@ -23,7 +24,6 @@
             <li><a href="../index.html">Home</a></li>
             <li><a href="../pages/first-aid.html">Trail First-Aid</a></li>
             <li><a href="../pages/navigation.html">Trail Navigation</a></li>
-            <li><a href="../pages/reader_comments.html">Reader Comments</a></li>
           </ul>
         </div>
     </nav>
@@ -32,32 +32,44 @@
         <li><a href="../index.html">Home</a></li>
         <li><a href="../pages/first-aid.html">Trail First-Aid</a></li>
         <li><a href="../pages/navigation.html">Trail Navigation</a></li>
-        <li><a href="../pages/reader_comments.html">Reader Comments</a></li>
         <li><a href="../pages/about.html">About</a></li>
     </ul>
-    <div id="first-aid">
-        <div class="container center">
-                <!-- <h2 style="background-color: white; padding-bottom: 1rem;">Trail First-Aid</h2> -->
-        </div>
-        <div class="container green" style="margin: Auto; padding: .3rem .8rem">
-            <div class="card brown lighten-4">
-                <div class="card-content center">
-                    <h5 class="center black-text">OOPS!</h5>
-                        <p>Currently, this page is not viewable offline.</p>
-                        <a href="../index.html" class="btn-small brown green-text">Return to Home</a>
-
-                        
-                </div>
+    <h1>Reader Feedback</h1>
+    <div class="listcontent">
+        <ul id="comments_list"></ul>
+    </div>
+    <hr style="height: 10px;">
+    <h1>Submit a Comment</h1>
+    <div class="formcontent">
+        <form id="add_comment">
+            <div class="input-wrapper">
+                <label for="email">Email:</label>
+                <input type="text" name="email" placeholder="email"> 
             </div>
-            <!-- <hr class="brown" style="margin: 3rem;">
-            <div class="card brown lighten-4">
-                <div class="card-content">
-                    <h3 class="center black-text">First-Aid Tips</h3>
-                        <p>Good first-aid information becomes invaluable when out on the trail. That's why ... consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                </div>
+            <div class="input-wrapper">
+                <label for="friendlyname">Name:</label>
+                <input type="text" name="friendlyname" placeholder="preferred name">
+            </div>
+            <div class="input-wrapper">
+                <label for="region">Location:</label>
+                <input type="text" name="region" placeholder="location - region">
+            </div>
+            <!-- <div class="input-wrapper">
+                <label for="role">Requested role: </label>
+                <input type="text" name="role" placeholder="requested role">
             </div> -->
-        </div>
+            <!-- <div class="checkbox-wrapper">
+                <label for="active">Subscriber: </label>
+                <input class="formcheckbox" type="checkbox" name="active">
+            </div> -->
+            <div class="input-wrapper">
+                <label for="comment">Add comment:</label>
+                <textarea name="comment" id="comment" rows="10" cols="82" placeholder="enter comment"></textarea>
+            </div>
+            <div class="formbutton-wrapper">
+                <button>Add Comment</button>
+            </div>
+        </form>
     </div>
     <div style="margin-bottom: .5rem;"></div>
     <footer class="page-footer brown ">
@@ -98,5 +110,10 @@
             $('.parallax').parallax();
         });
     </script>
+        <script type="module" src="../js/fb.js">
+        </script>
+
+        <script type="module" src="../js/fb_app.js">            
+        </script>
     </body>
 </html>
