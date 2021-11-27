@@ -1,5 +1,5 @@
 import { db } from './fb.js';
-import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, query, where, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, addDoc, onSnapshot, doc, deleteDoc, query, where, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
 /* run for Users list data */
 /* getUsers(db); */
@@ -9,9 +9,24 @@ import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, query, where
       console.log(doc.id, "=>", doc.data());
 });
 } */
-
+const fsdb = db;
 const commentsList = document.querySelector('#comments_list');
 const form = document.querySelector('#add_comment');
+
+/*track changes*/
+/* note: consider use case before implementing */
+/* const unsub = onSnapshot(collection(fs, "Users"), (doc) => {
+  //console.log(doc.docChanges());
+  doc.docChanges().forEach((change) => {
+    //console.log(change, change.doc.data(), change.doc.id);
+    if (change.type === "added") {
+      //do..
+    }
+    if (change.type === "removed") {
+      //do..
+    }
+  });
+});  */
 
 function renderComments(resDoc) {
   let li = document.createElement("li");
@@ -50,11 +65,21 @@ function renderComments(resDoc) {
 }) */
 }
 
-const users = getDocs(collection(db, "Users")).then((snapshot) => {
+/*sync*/
+/* const users = getDocs(collection(db, "Users")).then((snapshot) => {
   snapshot.forEach((doc) => {
       renderComments(doc)
   })
-})
+}) */
+
+/*async - preferred over syncron*/
+async function getUserComments(fs) {
+  const commentsCollection = collection(fs, "Users");
+  const querySnapshot = await getDocs(commentsCollection);
+    querySnapshot.forEach((doc) => {
+      renderComments(doc)
+    })
+}
 
 /* const q = query(collection(db, "Users"), where("region", "==", "CAeast")); */
 
@@ -81,3 +106,5 @@ form.addEventListener(('submit'), (e) => {
   })
   form.reset();
 })
+
+getUserComments(fsdb);

@@ -2,29 +2,34 @@ const staticCache = "Static-Cache-V0";
 const dynamicCache = "Dynamic-Cache-V1";
 
 const staticAssets = [
- '/',
- "index.html",
- "manifest.json",
- "/pages/fallback.html",
- "/js/app.js",
- "/js/jquery-3.6.0.min.js",
- "/js/materialize.min.js",
- "/css/main.css",
- "/css/materialize.min.css",
- "/fonts/icon.css",
- "/images/about_page.png",
- "/images/about1.jpg",
- "/images/about2.jpg",
- "/images/homeIcon192.png",
- "/images/homeIcon512.png",
- "/images/trail_header0.jpg",
- "/images/trail_header00.jpg",
- "/images/trail_header1.jpg",
- "/images/trail_header01.jpg",
- "/images/trail_header2.jpg",
- "/favicon/favicon.ico",
- "/favicon/favicon1.gif"
-];
+    '/',
+    "index.html",
+    "manifest.json",
+    "/pages/fallback.html",
+    "/js/app.js",
+    "/js/jquery-3.6.0.min.js",
+    "/js/materialize.min.js",
+    "/css/main.css",
+    "/css/materialize.min.css",
+    "/fonts/icon.css",
+    "/images/homeIcon192.png",
+    "/images/homeIcon512.png",
+    "/images/trail_header01.jpg",
+    "/images/trail_header2.jpg",
+    "/favicon/favicon.ico",
+    "/favicon/favicon1.gif"
+   ];
+
+//Limit Cache size
+const limitCacheSize = (name, size) => {
+    caches.open(name).then((cache) => {
+        caches,keys().then((keys) => {
+            if (keys.length > size) {
+                cache.delete(keys[0]).then(limitCacheSize(name, size))
+            }
+        })
+    })
+}   
 
 self.addEventListener("install", function(event){
     //log the install fires event
@@ -45,8 +50,8 @@ self.addEventListener("activate", function(event){
         event.waitUntil(caches.keys().then((keys) => {
             //console.log('Caches.Keys ', keys);
             return Promise.all(keys
-                    .filter((key) => key !== staticCache)
-                    .map((key) => caches.delete((key)))
+                    .filter((key) => key !== staticCache && key !== dynamicCache)
+                    .map((key) => caches.delete(key))
             );
         })
     );
@@ -90,6 +95,7 @@ self.addEventListener("fetch", event => {
             .then(fetchRes => {
                 return caches.open(dynamicCache).then(cache => {
                    cache.put(event.request.url, fetchRes.clone());
+                   limitCacheSize(dynamicCache, 20);
                    console.log('PUT a clone of ', event.request.url, ' in dynamic cache');
                    return fetchRes; 
                 })

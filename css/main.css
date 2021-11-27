@@ -5,12 +5,12 @@
   }
 
   #about {
-    background-image: url("/images/about2.jpg");
+    background-image: url("/images/trail_header2.jpg");
     background-size: cover;
   }
 
-  #article {
-    background-image: url("/images/trail_header1.jpg");
+  #monthly_article {
+    background-image: url("/images/trail_header2.jpg");
     background-size: cover;
     height: 55rem;
   }
@@ -21,6 +21,6 @@
   }
 
   #navigation {
-    background-image: url("/images/trail_header0.jpg");
+    background-image: url("/images/trail_header2.jpg");
     background-size: cover;
   }
