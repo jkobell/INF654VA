@@ -95,7 +95,7 @@ self.addEventListener("fetch", event => {
             .then(fetchRes => {
                 return caches.open(dynamicCache).then(cache => {
                    cache.put(event.request.url, fetchRes.clone());
-                   limitCacheSize(dynamicCache, 20);
+                   limitCacheSize(dynamicCache, 25);
                    console.log('PUT a clone of ', event.request.url, ' in dynamic cache');
                    return fetchRes; 
                 })
