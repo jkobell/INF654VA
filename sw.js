@@ -1,5 +1,5 @@
-const staticCache = "Static-Cache-V0";
-const dynamicCache = "Dynamic-Cache-V1";
+const staticCache = "Static-Cache-V5";
+const dynamicCache = "Dynamic-Cache-V5";
 
 const staticAssets = [
     '/',
@@ -23,7 +23,7 @@ const staticAssets = [
 //Limit Cache size
 const limitCacheSize = (name, size) => {
     caches.open(name).then((cache) => {
-        caches,keys().then((keys) => {
+        caches.keys().then((keys) => {
             if (keys.length > size) {
                 cache.delete(keys[0]).then(limitCacheSize(name, size))
             }
@@ -83,27 +83,29 @@ self.addEventListener("activate", function(event){
 //----------------------------------
 self.addEventListener("fetch", event => {
     console.log(`serviceWorker fetch event fired for resource: ${event.request.url}`);
-    event.respondWith(
-        caches.match(event.request)
-        .then(response => {
-            if (response) {
-                console.log('Found ', event.request.url, ' in cache');
-                return response;
-            }
-            console.log('Network request for ', event.request.url);
-            return fetch(event.request)
-            .then(fetchRes => {
-                return caches.open(dynamicCache).then(cache => {
-                   cache.put(event.request.url, fetchRes.clone());
-                   limitCacheSize(dynamicCache, 25);
-                   console.log('PUT a clone of ', event.request.url, ' in dynamic cache');
-                   return fetchRes; 
-                })
-            });
-        })
-        .catch(() => caches.match("/pages/fallback.html"))
-        /* .catch(error => {
-            console.log(`ServiceWorker event.RespondWith error: ${error})`);
-        }) */
-    );
+    if (event.request.url.indexOf("firestore.googleapis.com") === -1) {
+        event.respondWith(
+            caches.match(event.request)
+            .then(response => {
+                if (response) {
+                    console.log('Found ', event.request.url, ' in cache');
+                    return response;
+                }
+                console.log('Network request for ', event.request.url);
+                return fetch(event.request)
+                .then(fetchRes => {
+                    return caches.open(dynamicCache).then(cache => {
+                    cache.put(event.request.url, fetchRes.clone());
+                    limitCacheSize(dynamicCache, 25);
+                    console.log('PUT a clone of ', event.request.url, ' in dynamic cache');
+                    return fetchRes; 
+                    })
+                });
+            })
+            .catch(() => caches.match("../pages/fallback.html"))
+            /* .catch(error => {
+                console.log(`ServiceWorker event.RespondWith error: ${error})`);
+            }) */
+        );
+        }
 });
