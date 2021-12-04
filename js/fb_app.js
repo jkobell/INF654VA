@@ -73,7 +73,20 @@ form.addEventListener(('submit'), (e) => {
 
 getUserComments(fsdb);
 
-
+/*track changes*/
+const unsub = onSnapshot(collection(fsdb, "Users"), (doc) => {
+  //console.log(doc.docChanges());
+  doc.docChanges().forEach((change) => {
+    //console.log(change, change.doc.data(), change.doc.id);
+    if (change.type === "added") {
+      console.log("An add event has occured!");
+      renderComment(change.doc.data(), change.doc.id);
+    }
+    if (change.type === "removed") {
+      //do..
+    }
+  });
+}); 
 
 /*-------Begin ToDo--------*/
 /*ToDo*/
@@ -123,25 +136,5 @@ getUserComments(fsdb);
   })
 }) */
 
-/*ToDo*/
-/*Not for PWA user view*/
-/*track changes*/
-/* note: consider Use Case before implementing */
-/*comments should be approved by moderator before adding*/
-/*possible use: add/append new comments to commentsList.appendChild(li);*/
-/*note: remove will be for logged in admin view*/
-/*implement with template literal, create element*/
-/* const unsub = onSnapshot(collection(fs, "Users"), (doc) => {
-  //console.log(doc.docChanges());
-  doc.docChanges().forEach((change) => {
-    //console.log(change, change.doc.data(), change.doc.id);
-    if (change.type === "added") {
-      //do..
-    }
-    if (change.type === "removed") {
-      //do..
-    }
-  });
-});  */
 
 /*-------End ToDo--------*/
