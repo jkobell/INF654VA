@@ -1,5 +1,6 @@
 import { db } from './fb.js';
 import { getFirestore, collection, getDocs, addDoc, onSnapshot, doc, deleteDoc, query, where, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import { enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
 const fsdb = db;
 const commentsList = document.querySelector('#comments_list');
@@ -43,6 +44,19 @@ async function getUserComments(fs) {
       renderComments(doc)
     })
 }
+
+enableIndexedDbPersistence(db)
+  .catch((err) => {
+      if (err.code == 'failed-precondition') {
+          // Multiple tabs open, persistence can only be enabled
+          // in one tab at a a time.
+          console.log("Persistence failed.");
+      } else if (err.code == 'unimplemented') {
+          // The current browser does not support all of the
+          // features required to enable persistence
+          console.log("Persistence is not valid.");
+      }
+  });
 
 form.addEventListener(('submit'), (e) => {
   e.preventDefault();
