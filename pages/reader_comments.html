@@ -39,20 +39,31 @@
         <ul id="comments_list"></ul>
     </div>
     <hr style="height: 10px;">
-    <h1>Submit a Comment</h1>
+
+    <!--toggle-->
+    <div class="submit_comment_wrapper">
+        <h2>Submit a Comment</h2>
+    </div>
+
+    <!--toggle-->
+    <div class="submit_comment_wrapper">
+        <h2>Please login or signup to submit a comment.</h2>
+    </div>
+
+    <!--toggle-->
     <div class="formcontent">
         <form id="add_comment">
             <div class="input-wrapper">
                 <label for="email">Email:</label>
-                <input type="text" name="email" placeholder="email"> 
+                <input type="text" name="email" placeholder="email" required ><!--populate with logged in user data--> 
             </div>
             <div class="input-wrapper">
                 <label for="friendlyname">Name:</label>
-                <input type="text" name="friendlyname" placeholder="preferred name">
+                <input type="text" name="friendlyname" placeholder="preferred name" required >
             </div>
             <div class="input-wrapper">
-                <label for="region">Location:</label>
-                <input type="text" name="region" placeholder="location - region">
+                <label for="region">Region:</label>
+                <input type="text" name="region" placeholder="location - region" required >
             </div>
             <!-- <div class="input-wrapper">
                 <label for="role">Requested role: </label>
