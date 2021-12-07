@@ -6,45 +6,6 @@ const fsdb = db;
 const commentsList = document.querySelector('#comments_list');
 const form = document.querySelector('#add_comment');
 
-function renderComments(resDoc) {
-  let li = document.createElement("li");
-  let friendlyname = document.createElement("span");
-  let email = document.createElement("span");
-  let region = document.createElement("span");
-  /* let role = document.createElement("span"); *//* note: consider Use Case before implementing */
-  /* let status = document.createElement("span"); *//* note: consider Use Case before implementing */
-  let comment = document.createElement("span");
-  /* let cross = document.createElement('div'); *//* note: consider Use Case before implementing */
-
-  li.setAttribute('data-id', resDoc.id);
-  li.setAttribute('class', 'commentslist');
-  friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
-  email.textContent = "Email: " + resDoc.data().email;
-  region.textContent = "Region: " + resDoc.data().region;
-  /* role.textContent = "Role: " + resDoc.data().role; *//* note: consider Use Case before implementing */
-  /* status.textContent = "Subscriber Status: " + resDoc.data().active; *//* note: consider Use Case before implementing */
-  comment.textContent = "Comment: " + resDoc.data().comment;
-  /* cross.textContent = 'X'; *//* note: consider Use Case before implementing */
-
-  li.appendChild(friendlyname);
-  li.appendChild(email);
-  li.appendChild(region);
-  /* li.appendChild(role); *//* note: consider Use Case before implementing */
-  /* li.appendChild(status); *//* note: consider Use Case before implementing */
-  li.appendChild(comment);
-  /* li.appendChild(cross); *//* note: consider Use Case before implementing */
-  commentsList.appendChild(li);
-}
-
-/*async - preferred over syncron*/
-async function getUserComments(fs) {
-  const commentsCollection = collection(fs, "Users");
-  const querySnapshot = await getDocs(commentsCollection);
-    querySnapshot.forEach((doc) => {
-      renderComments(doc)
-    })
-}
-
 enableIndexedDbPersistence(db)
   .catch((err) => {
       if (err.code == 'failed-precondition') {
@@ -58,14 +19,95 @@ enableIndexedDbPersistence(db)
       }
   });
 
+//async is preferred
+async function getUserComments(fs) {
+  const commentsCollection = collection(fs, "Users");
+  const querySnapshot = await getDocs(commentsCollection);
+    querySnapshot.forEach((doc) => {
+      renderCommentsAdmin(doc)
+    });
+}
+
+  /*track changes*/
+  var initState = true;
+  const unsub = onSnapshot(collection(db, "Users"), (snapshot) => {
+    if (initState)
+        {
+          initState = false;
+        }
+    else {
+    console.log(snapshot.docChanges());
+    snapshot.docChanges().forEach((change) => {
+        console.log(change, change.doc.data(), change.doc.id);
+        console.log("hasPendingWrites: ", change.doc.metadata.hasPendingWrites);
+        console.log("fromCache: ", change.doc.metadata.fromCache);
+        console.log("_document", change.doc._document);
+
+        
+        
+          if (change.type === "added" &&
+          //change.doc.metadata.hasPendingWrites === true &&
+          change.doc.metadata.fromCache === false) {//true, false onSubmit
+          console.log("An add event has occured!");
+          console.log("initState: ", initState);
+          renderComment(change.doc.data(), change.doc.id);
+          }
+          if (change.type === "removed" &&
+              change.doc.metadata.hasPendingWrites === false &&
+              change.doc.metadata.fromCache === false) {//false. false remove
+              console.log("A removed event has occured!");
+              console.log("change doc ID: ", change.doc.id)
+              const comment = document.querySelector(`.commentslist[data-id = ${change.doc.id}]`);
+              comment.remove();
+              //do..
+          }
+        
+      
+      });
+    }
+  }); 
+
+function renderCommentsAdmin(resDoc) {
+  let li = document.createElement("li");
+  let friendlyname = document.createElement("span");
+  let email = document.createElement("span");
+  let region = document.createElement("span");
+  let moderator = document.createElement("span");
+  let comment = document.createElement("span");
+  let cross = document.createElement('div');
+  
+
+  li.setAttribute('data-id', resDoc.id);
+  li.setAttribute('class', 'commentslist');
+  friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
+  email.textContent = "Email: " + resDoc.data().email;
+  region.textContent = "Region: " + resDoc.data().region;
+  moderator.textContent = "Moderator: " + resDoc.data().moderator;
+  comment.textContent = "Comment: " + resDoc.data().comment;
+  cross.textContent = 'X'; 
+
+  li.appendChild(friendlyname);
+  li.appendChild(email);
+  li.appendChild(region);
+  li.appendChild(moderator); 
+  li.appendChild(comment);
+  li.appendChild(cross); 
+  commentsList.appendChild(li);
+
+  cross.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let id = e.target.parentElement.getAttribute('data-id');
+    deleteDoc(doc(fsdb, "Users", id))
+  })
+}
+
 form.addEventListener(('submit'), (e) => {
   e.preventDefault();
   const docRef = addDoc(collection(db, "Users"), {
       friendlyname: form.friendlyname.value,
       email: form.email.value,
       region: form.region.value,
-     /*  role: form.role.value, *//* note: consider Use Case before implementing */
-     /*  active: form.active.value, *//* note: consider Use Case before implementing */
+      moderator: "false", //default == false
       comment: form.comment.value
   }).catch((error) => console.log(error));
   form.reset();
@@ -74,7 +116,7 @@ form.addEventListener(('submit'), (e) => {
 getUserComments(fsdb);
 
 /*track changes*/
-const unsub = onSnapshot(collection(fsdb, "Users"), (doc) => {
+/* const unsub = onSnapshot(collection(fsdb, "Users"), (doc) => {
   //console.log(doc.docChanges());
   doc.docChanges().forEach((change) => {
     //console.log(change, change.doc.data(), change.doc.id);
@@ -86,7 +128,7 @@ const unsub = onSnapshot(collection(fsdb, "Users"), (doc) => {
       //do..
     }
   });
-}); 
+});  */
 
 /*-------Begin ToDo--------*/
 /*ToDo*/

@@ -9,6 +9,8 @@ const renderComment = (data, id) => {
         </span>
         <span>Region: ${data.region}
         </span>
+        <span>Moderator: ${data.moderator}
+        </span>
         <span>Comment: ${data.comment}
         </span>
     </li>
