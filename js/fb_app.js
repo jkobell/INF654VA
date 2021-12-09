@@ -1,10 +1,18 @@
-import { db } from './fb.js';
+import { db, app } from './fb.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
 import { getFirestore, collection, getDocs, addDoc, onSnapshot, doc, deleteDoc, query, where, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 import { enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+
+
+const auth = getAuth(app);
 
 const fsdb = db;
 const commentsList = document.querySelector('#comments_list');
 const form = document.querySelector('#add_comment');
+
+const submit_loggedin = document.querySelector(".submit_comment_loggedin_wrapper");
+const submit_loggedout = document.querySelector(".submit_comment_loggedout_wrapper");
+const comment_form = document.querySelector(".formcontent");
 
 enableIndexedDbPersistence(db)
   .catch((err) => {
@@ -19,12 +27,60 @@ enableIndexedDbPersistence(db)
       }
   });
 
+  const set_submit = (user) => {
+    if (user) {
+        /* if (user.displayName === "administrator") {
+            submit_loggedin.style.display = "block"; 
+        } */
+        submit_loggedin.style.display = "block";
+        comment_form.style.display = "block";
+        submit_loggedout.style.display = "none";
+    }
+    else {
+        submit_loggedout.style.display = "block";
+        submit_loggedin.style.display = "none";
+        comment_form.style.display = "none";
+    }
+  };
+
+  
+
+  onAuthStateChanged(auth, (user) => {
+    getUserComments(fsdb, user);
+    set_submit(user);
+    if(user) {
+        console.log("User logged in at reader_comments: ", user.email);
+        console.log("User object at reader_comments: ", user);
+        //set_login_nav(user);
+        
+
+        //update administrator or moderator - uncomment ONLY to set displayName
+        //set_displayName(user);
+    }
+    else {
+        console.log("User is logged out at reader_comments:");
+    }
+});
+
 //async is preferred
-async function getUserComments(fs) {
+async function getUserComments(fs, current_user) {
   const commentsCollection = collection(fs, "Users");
   const querySnapshot = await getDocs(commentsCollection);
     querySnapshot.forEach((doc) => {
-      renderCommentsAdmin(doc)
+      if(current_user) {
+        if (current_user.displayName === "administrator") {
+          renderCommentsAdmin(doc);
+        }
+        else if (current_user.displayName === "moderator") {
+          renderCommentsModerator(doc);
+        }
+        else {
+          renderCommentsUser(doc);
+        }
+      }
+      else {
+        renderCommentsUser(doc);
+      }
     });
 }
 
@@ -101,6 +157,71 @@ function renderCommentsAdmin(resDoc) {
   })
 }
 
+function renderCommentsModerator(resDoc) {
+  let li = document.createElement("li");
+  let friendlyname = document.createElement("span");
+  //let email = document.createElement("span");
+  let region = document.createElement("span");
+  //let moderator = document.createElement("span");
+  let comment = document.createElement("span");
+  let delete_comment = document.createElement('div');
+  
+
+  li.setAttribute('data-id', resDoc.id);
+  li.setAttribute('class', 'commentslist');
+  delete_comment.style.setAttribute('padding', '50px');
+
+
+  friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
+  //email.textContent = "Email: " + resDoc.data().email;
+  region.textContent = "Region: " + resDoc.data().region;
+  //moderator.textContent = "Moderator: " + resDoc.data().moderator;
+  comment.textContent = "Comment: " + resDoc.data().comment;
+  delete_comment.textContent = "Remove"; 
+
+  li.appendChild(friendlyname);
+  //li.appendChild(email);
+  li.appendChild(region);
+  //li.appendChild(moderator); 
+  li.appendChild(comment);
+  li.appendChild(delete_comment); 
+  commentsList.appendChild(li);
+
+  delete_comment.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let id = e.target.parentElement.getAttribute('data-id');
+    deleteDoc(doc(fsdb, "Users", id))
+  })
+}
+
+function renderCommentsUser(resDoc) {
+  let li = document.createElement("li");
+  let friendlyname = document.createElement("span");
+  //let email = document.createElement("span");
+  let region = document.createElement("span");
+  //let moderator = document.createElement("span");
+  let comment = document.createElement("span");
+  //let cross = document.createElement('div');
+  
+
+  li.setAttribute('data-id', resDoc.id);
+  li.setAttribute('class', 'commentslist');
+  friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
+  //email.textContent = "Email: " + resDoc.data().email;
+  region.textContent = "Region: " + resDoc.data().region;
+  //moderator.textContent = "Moderator: " + resDoc.data().moderator;
+  comment.textContent = "Comment: " + resDoc.data().comment;
+  //cross.textContent = 'X'; 
+
+  li.appendChild(friendlyname);
+  //li.appendChild(email);
+  li.appendChild(region);
+  //li.appendChild(moderator); 
+  li.appendChild(comment);
+  //li.appendChild(cross); 
+  commentsList.appendChild(li);
+}
+
 form.addEventListener(('submit'), (e) => {
   e.preventDefault();
   const docRef = addDoc(collection(db, "Users"), {
@@ -113,7 +234,7 @@ form.addEventListener(('submit'), (e) => {
   form.reset();
 })
 
-getUserComments(fsdb);
+
 
 /*track changes*/
 /* const unsub = onSnapshot(collection(fsdb, "Users"), (doc) => {

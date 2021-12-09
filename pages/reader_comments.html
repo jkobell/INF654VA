@@ -41,13 +41,13 @@
     <hr style="height: 10px;">
 
     <!--toggle-->
-    <div class="submit_comment_wrapper">
-        <h2>Submit a Comment</h2>
+    <div class="submit_comment_loggedin_wrapper center-align">
+        <h3>Submit a Comment</h3>
     </div>
 
     <!--toggle-->
-    <div class="submit_comment_wrapper">
-        <h2>Please login or signup to submit a comment.</h2>
+    <div class="submit_comment_loggedout_wrapper center-align">
+        <h3>Please login or signup to submit a comment.</h3>
     </div>
 
     <!--toggle-->
@@ -123,12 +123,18 @@
             $('.parallax').parallax();
         });
     </script>
+        
+
         <script type="module" src="../js/fb.js">
+        </script>
+
+        <script type="module" src="../js/auth.js">
         </script>
 
         <script type="module" src="../js/fb_app.js">            
         </script>
 
-    <script src="/js/ui.js"></script>
+    <script src="../js/ui.js"></script>
+    
     </body>
 </html>

@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged  } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile  } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
                       
         const firebaseConfig = {
       
@@ -17,14 +17,39 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
       
         };
         
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        export const app = initializeApp(firebaseConfig);
+        export const auth = getAuth(app);
+
+        const loggedOutLinks = document.querySelectorAll(".logged-out");
+        const loggedInLinks = document.querySelectorAll(".logged-in");
+
+        
+
+        const set_login_nav = (user) => {
+            if (user) {
+                loggedOutLinks.forEach((item) => (item.style.display = "none"));
+                loggedInLinks.forEach((item) => (item.style.display = "block"));
+            }
+            else {
+                loggedOutLinks.forEach((item) => (item.style.display = "block"));
+                loggedInLinks.forEach((item) => (item.style.display = "none"));
+            }
+        };
+
+        
 
         //auth -- signed in status change; i.e, to logout status
         onAuthStateChanged(auth, (user) => {
             if(user) {
                 console.log("User logged in: ", user.email);
+                console.log("User object: ", user);
+                //set_login_nav(user);
+                //set_submit(user);
 
+
+
+                //update administrator or moderator - uncomment ONLY to set displayName
+                //set_displayName(user);
             }
             else {
                 console.log("User is logged out");
@@ -87,8 +112,25 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
                 // ..
             });
         });
-        
 
-        
+        //To Do: create profile update utility
+        //uncomment to run each as needed
+        //const set_displayName = (user) => {
+                //update administrator - uncomment ONLY to set displayName
+                /* updateProfile(user, {
+                    displayName: "administrator"
+                    }).then(() => {
+                        console.log("displayName set to administrator for: ", auth.currentUser);
+                    }).catch((error) => {
+                        console.log("profile update error: ", error);
+                    }); */
 
-
+                //update moderator - uncomment ONLY to set displayName
+                /* updateProfile(user, {
+                    displayName: "moderator"
+                    }).then(() => {
+                        console.log("displayName set to moderator for: ", auth.currentUser);
+                    }).catch((error) => {
+                        console.log("profile update error: ", error);
+                    }); */
+        //};
