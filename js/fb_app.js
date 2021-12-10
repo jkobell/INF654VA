@@ -46,47 +46,32 @@ enableIndexedDbPersistence(db)
   
 
   onAuthStateChanged(auth, (user) => {
-    getUserComments(fsdb, user);
-    set_submit(user);
-    if(user) {
-        console.log("User logged in at reader_comments: ", user.email);
-        console.log("User object at reader_comments: ", user);
-        //set_login_nav(user);
+    let current_comments_list = document.querySelectorAll('.commentslist');
+    
+    //remove all comments in list before creating new list and view
+    if (current_comments_list != null && current_comments_list.length > 0) {
+      current_comments_list.forEach (c => {
+        commentsList.removeChild(c);
+      });
+    }
         
+    let get_comments = getUserComments(fsdb, user);
+    let set_submit_form = set_submit(user);
 
-        //update administrator or moderator - uncomment ONLY to set displayName
-        //set_displayName(user);
-    }
-    else {
-        console.log("User is logged out at reader_comments:");
-    }
+      if(user) {
+          console.log("User logged in at reader_comments: ", user.email);
+          console.log("User object at reader_comments: ", user);
+          //set_login_nav(user);
+          
+  
+          //update administrator or moderator - uncomment ONLY to set displayName
+          //set_displayName(user);
+      }
+      else {
+          console.log("User is logged out at reader_comments:");
+      }
+    
 });
-
-/* const edit_comment_form = (comment) => {
-  const html = `
-  <form id="edit_comment">
-    <div class="input-wrapper">
-      <label for="comment">Comment:</label>
-      <textarea name="comment" id="comment" rows="10" cols="82">${comment}</textarea>
-    </div>
-  </form>
-  `;
-}; */
-
-  /* const html = `
-  <li class="commentslist" data-id ="${id}">
-      <span>Name: ${data.friendlyname}
-      </span>
-      <span>Email:  ${data.email}
-      </span>
-      <span>Region: ${data.region}
-      </span>
-      <span>Moderator: ${data.moderator}
-      </span>
-      <span>Comment: ${data.comment}
-      </span>
-  </li>
-  `; */
 
 //async is preferred
 async function getUserComments(fs, current_user) {
@@ -143,8 +128,6 @@ async function getUserComments(fs, current_user) {
               comment.remove();
               //do..
           }
-        
-      
       });
     }
   });

@@ -24,6 +24,20 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
         const loggedInLinks = document.querySelectorAll(".logged-in");
 
         
+        const account_details_div = document.querySelector('.account-details');
+        const display_account_details = (info) => {
+            if (info.displayName === null) {
+                info.displayName = "Member";
+            }
+            const html = `
+            <div>
+                <span>Welcome: </span><span>${info.displayName}</span>
+                <br> 
+                <span>Logged in as: </span><span>${info.email}</span>
+            </div>
+            `;
+            account_details_div.innerHTML = html;
+        };
 
         const set_login_nav = (user) => {
             if (user) {
@@ -40,10 +54,11 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 
         //auth -- signed in status change; i.e, to logout status
         onAuthStateChanged(auth, (user) => {
+            set_login_nav(user);
             if(user) {
                 console.log("User logged in: ", user.email);
                 console.log("User object: ", user);
-                //set_login_nav(user);
+                
                 //set_submit(user);
 
 
@@ -54,6 +69,14 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             else {
                 console.log("User is logged out");
             }
+        });
+
+        //Account Details
+        const account = document.querySelector('#account');
+        account.addEventListener("click", (e) => {
+            e.preventDefault();
+            let authuser = auth.currentUser;
+            display_account_details(authuser);
         });
 
         //signup
