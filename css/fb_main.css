@@ -100,18 +100,17 @@ body {
     width: 70%;  
 }
 
-.checkbox-wrapper label, .checkbox-wrapper input{
+/* .checkbox-wrapper label, .checkbox-wrapper input{
     float: none; /* if you had floats before? otherwise inline-block will behave differently */
-    display: inline-block;
+   /* display: inline-block;
     vertical-align: middle;
     margin: 1%;
     padding: 8px;
-}
-
-.formcheckbox {
-    width: 2em;
-    height: 2em;
-}
+}*/
+/* .formcheckbox {
+    width: 25px;
+    height: 25px;
+} */
 
 textarea{
     resize: none;
@@ -119,7 +118,7 @@ textarea{
  
 button{
     padding: 10px;
-    width: 20%;
+    width: auto;
     background-color: burlywood;
     border-radius: 10px;
 }

@@ -5,11 +5,7 @@ const renderComment = (data, id) => {
     <li class="commentslist" data-id ="${id}">
         <span>Name: ${data.friendlyname}
         </span>
-        <span>Email:  ${data.email}
-        </span>
         <span>Region: ${data.region}
-        </span>
-        <span>Moderator: ${data.moderator}
         </span>
         <span>Comment: ${data.comment}
         </span>
