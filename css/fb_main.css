@@ -68,7 +68,7 @@ body {
     
   }
   
-  .commentslist div {
+  /* .commentslist div {
     position: absolute;
     top: 0;
     right: 0px;
@@ -78,7 +78,7 @@ body {
     padding: 10px 0;
     font-weight: bold;
     cursor: pointer;
-  }
+  } */
   
   
   .input-wrapper label, .input-wrapper input, .input-wrapper textarea {
