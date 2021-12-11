@@ -72,6 +72,13 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             display_account_details(authuser);
         });
 
+        const mobile_account = document.querySelector('#mobile_account');
+        mobile_account.addEventListener("click", (e) => {
+            e.preventDefault();
+            let authuser = auth.currentUser;
+            display_account_details(authuser);
+        });
+
         //signup
         const signupForm = document.querySelector("#signup-form");
         signupForm.addEventListener("submit", (e) => {
@@ -89,13 +96,24 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
             });
         });
 
         //logout
         const logout = document.querySelector("#logout");
         logout.addEventListener("click", (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+            console.log("User logout with signOut fb method");
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+        });
+
+        const mobile_logout = document.querySelector("#mobile_logout");
+        mobile_logout.addEventListener("click", (e) => {
             e.preventDefault();
             signOut(auth).then(() => {
             console.log("User logout with signOut fb method");
