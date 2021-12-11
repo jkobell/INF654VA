@@ -100,6 +100,7 @@ body {
     width: 70%;  
 }
 
+/* not for Materialize */
 /* .checkbox-wrapper label, .checkbox-wrapper input{
     float: none; /* if you had floats before? otherwise inline-block will behave differently */
    /* display: inline-block;

@@ -50,19 +50,12 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }
         };
 
-        
-
         //auth -- signed in status change; i.e, to logout status
         onAuthStateChanged(auth, (user) => {
             set_login_nav(user);
             if(user) {
                 console.log("User logged in: ", user.email);
                 console.log("User object: ", user);
-                
-                //set_submit(user);
-
-
-
                 //update administrator or moderator - uncomment ONLY to set displayName
                 //set_displayName(user);
             }
@@ -83,7 +76,6 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
         const signupForm = document.querySelector("#signup-form");
         signupForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            //get user info
             const email = signupForm["signup-email"].value;
             const password = signupForm["signup-password"].value;
 
@@ -136,8 +128,11 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             });
         });
 
-        //To Do: create profile update utility
-        //uncomment to run each as needed
+        //To Do: create profile update utility to assign administrator or moderator
+        //Usage: create an administartor or moderator, login under created account, updateProfile() user.displayName to administrator or moderator
+        //provide login credentials to administrator or moderator
+        //note: delete account in Firebase console to remove account
+        //uncomment to run as needed
         //const set_displayName = (user) => {
                 //update administrator - uncomment ONLY to set displayName
                 /* updateProfile(user, {

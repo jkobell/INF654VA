@@ -1,5 +1,5 @@
 import { db, app } from './fb.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
+import { getAuth, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
 import { getFirestore, collection, getDocs, addDoc, onSnapshot, doc, deleteDoc, query, where, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 import { enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
@@ -29,9 +29,6 @@ enableIndexedDbPersistence(db)
 
   const set_submit = (user) => {
     if (user) {
-        /* if (user.displayName === "administrator") {
-            submit_loggedin.style.display = "block"; 
-        } */
         submit_loggedin.style.display = "block";
         comment_form.style.display = "block";
         submit_loggedout.style.display = "none";
@@ -61,16 +58,10 @@ enableIndexedDbPersistence(db)
       if(user) {
           console.log("User logged in at reader_comments: ", user.email);
           console.log("User object at reader_comments: ", user);
-          //set_login_nav(user);
-          
-  
-          //update administrator or moderator - uncomment ONLY to set displayName
-          //set_displayName(user);
       }
       else {
           console.log("User is logged out at reader_comments:");
       }
-    
 });
 
 //async is preferred
@@ -109,11 +100,8 @@ async function getUserComments(fs, current_user) {
         console.log("hasPendingWrites: ", change.doc.metadata.hasPendingWrites);
         console.log("fromCache: ", change.doc.metadata.fromCache);
         console.log("_document", change.doc._document);
-
-        
         
           if (change.type === "added" &&
-          //change.doc.metadata.hasPendingWrites === true &&
           change.doc.metadata.fromCache === false) {//true, false onSubmit
           console.log("An add event has occured!");
           console.log("initState: ", initState);
@@ -124,9 +112,8 @@ async function getUserComments(fs, current_user) {
               change.doc.metadata.fromCache === false) {//false. false remove
               console.log("A removed event has occured!");
               console.log("change doc ID: ", change.doc.id)
-              const comment = document.querySelector(`.commentslist[data-id = ${change.doc.id}]`);
+              const comment = document.querySelector(`.commentslist[data-id = "${change.doc.id}"]`);
               comment.remove();
-              //do..
           }
       });
     }
@@ -145,7 +132,6 @@ function renderCommentsAdmin(resDoc) {
   let moderator_checkbox = document.createElement("input");
   
   let delete_comment = document.createElement('button');
-  /* let edit_comment = edit_comment_form(resDoc.data().comment); */
   let edit_comment_wrapper = document.createElement('div');
   let edit_comment_form = document.createElement('form');
   let edit_comment_div = document.createElement('div');
@@ -157,16 +143,10 @@ function renderCommentsAdmin(resDoc) {
   li.setAttribute('data-id', resDoc.id);
   li.setAttribute('class', 'commentslist');
 
-  //moderator_wrapper.setAttribute('class', 'checkbox-wrapper');
-  //moderator_label.setAttribute('for', 'moderator');
-  //moderator_checkbox.setAttribute('checked', 'checked');
   moderator_checkbox.setAttribute('type', 'checkbox');
-  //moderator_checkbox.setAttribute('name', 'moderator');
 
   delete_comment.style.padding = '2px';
   delete_comment.style.float = 'right';
-  /* edit_comment_div.style.position = 'none';
-  edit_comment_div.style.width = '100%';*/
   edit_comment_textarea.style.padding = '10px'; 
   edit_comment_textarea.style.height = '5em'; 
 
@@ -184,8 +164,6 @@ function renderCommentsAdmin(resDoc) {
   friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
   email.textContent = "Email: " + resDoc.data().email;
   region.textContent = "Region: " + resDoc.data().region;
-  //moderator.textContent = "Moderator: " + resDoc.data().moderator;
-  //comment.textContent = "Comment: " + resDoc.data().comment;
   delete_comment.textContent = "Remove";
   edit_comment_label.textContent = "Comment: ";
   edit_comment_textarea.textContent = resDoc.data().comment;
@@ -198,7 +176,6 @@ function renderCommentsAdmin(resDoc) {
   moderator_label.appendChild(moderator_checkbox);
   moderator_label.appendChild(moderator_span);
   moderator_wrapper.appendChild(moderator_label);
-  //moderator_wrapper.appendChild(moderator_checkbox);
   edit_comment_form.appendChild(moderator_wrapper);
 
   edit_comment_div.appendChild(edit_comment_label);
@@ -242,12 +219,8 @@ function renderCommentsAdmin(resDoc) {
 function renderCommentsModerator(resDoc) {
   let li = document.createElement("li");
   let friendlyname = document.createElement("span");
-  //let email = document.createElement("span");
   let region = document.createElement("span");
-  //let moderator = document.createElement("span");
-  //let comment = document.createElement("span");
   let delete_comment = document.createElement('button');
-  /* let edit_comment = edit_comment_form(resDoc.data().comment); */
   let edit_comment_wrapper = document.createElement('div');
   let edit_comment_form = document.createElement('form');
   let edit_comment_div = document.createElement('div');
@@ -260,8 +233,6 @@ function renderCommentsModerator(resDoc) {
   li.setAttribute('class', 'commentslist');
   delete_comment.style.padding = '2px';
   delete_comment.style.float = 'right';
-  /* edit_comment_div.style.position = 'none';
-  edit_comment_div.style.width = '100%';*/
   edit_comment_textarea.style.padding = '10px'; 
   edit_comment_textarea.style.height = 'auto'; 
 
@@ -277,10 +248,7 @@ function renderCommentsModerator(resDoc) {
 
 
   friendlyname.textContent = "Name: " + resDoc.data().friendlyname;
-  //email.textContent = "Email: " + resDoc.data().email;
   region.textContent = "Region: " + resDoc.data().region;
-  //moderator.textContent = "Moderator: " + resDoc.data().moderator;
-  //comment.textContent = "Comment: " + resDoc.data().comment;
   delete_comment.textContent = "Remove";
   edit_comment_label.textContent = "Comment: ";
   edit_comment_textarea.textContent = resDoc.data().comment;
@@ -296,10 +264,7 @@ function renderCommentsModerator(resDoc) {
 
   li.appendChild(delete_comment); 
   li.appendChild(friendlyname);
-  //li.appendChild(email);
   li.appendChild(region);
-  //li.appendChild(moderator); 
-  //li.appendChild(comment);
   li.appendChild(edit_comment_wrapper);
   
   commentsList.appendChild(li);
@@ -308,7 +273,6 @@ function renderCommentsModerator(resDoc) {
     e.preventDefault();
     let id = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('data-id');
     let update_record = doc(fsdb, "Users", id);
-    /* let editform = document.querySelector('#edit_comment'); */
     let comment_value = e.target.parentNode.children[1].value;
     
     updateDoc(update_record, {
