@@ -108,7 +108,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                console.log("Logout error: ", error.code +" : "+ error.message);
             });
         });
 
@@ -120,12 +120,14 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                console.log("Logout error: ", error.code +" : "+ error.message);
             });
         });
 
         //login
         const loginForm = document.querySelector("#login-form");
+        const user_login_error_message = document.querySelector("#user_login_error_message");
+        const html = `<h3>Login error: email or password was not correct.</h3>`;
         loginForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
@@ -138,11 +140,13 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
                 console.log(user);
                 const modal = document.querySelector("#modal-login");
                 M.Modal.getInstance(modal).close();
-                signupForm.reset();
+                loginForm.reset();
                 }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                console.log("Login error: ", error.code +" : "+ error.message);
+                loginForm.reset();
+                user_login_error_message.innerHTML = html;
             });
         });
 
