@@ -24,6 +24,20 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
         const loggedInLinks = document.querySelectorAll(".logged-in");
 
         
+        const account_details_div = document.querySelector('.account-details');
+        const display_account_details = (info) => {
+            if (info.displayName === null) {
+                info.displayName = "Member";
+            }
+            const html = `
+            <div>
+                <span>Welcome: </span><span>${info.displayName}</span>
+                <br> 
+                <span>Logged in as: </span><span>${info.email}</span>
+            </div>
+            `;
+            account_details_div.innerHTML = html;
+        };
 
         const set_login_nav = (user) => {
             if (user) {
@@ -36,18 +50,12 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }
         };
 
-        
-
         //auth -- signed in status change; i.e, to logout status
         onAuthStateChanged(auth, (user) => {
+            set_login_nav(user);
             if(user) {
                 console.log("User logged in: ", user.email);
                 console.log("User object: ", user);
-                //set_login_nav(user);
-                //set_submit(user);
-
-
-
                 //update administrator or moderator - uncomment ONLY to set displayName
                 //set_displayName(user);
             }
@@ -56,11 +64,18 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             }
         });
 
+        //Account Details
+        const account = document.querySelector('#account');
+        account.addEventListener("click", (e) => {
+            e.preventDefault();
+            let authuser = auth.currentUser;
+            display_account_details(authuser);
+        });
+
         //signup
         const signupForm = document.querySelector("#signup-form");
         signupForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            //get user info
             const email = signupForm["signup-email"].value;
             const password = signupForm["signup-password"].value;
 
@@ -113,8 +128,11 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
             });
         });
 
-        //To Do: create profile update utility
-        //uncomment to run each as needed
+        //To Do: create profile update utility to assign administrator or moderator
+        //Usage: create an administartor or moderator, login under created account, updateProfile() user.displayName to administrator or moderator
+        //provide login credentials to administrator or moderator
+        //note: delete account in Firebase console to remove account
+        //uncomment to run as needed
         //const set_displayName = (user) => {
                 //update administrator - uncomment ONLY to set displayName
                 /* updateProfile(user, {
